@@ -1,13 +1,17 @@
 <?php
 
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('pages.home');
-});
+// Mengarahkan halaman utama ke daftar buku
+Route::get('/', [BookController::class, 'index'])->name('books.index');
+Route::resource('members', MemberController::class);
+Route::resource('loans', LoanController::class);
 
-
+// Halaman statis
 Route::get('/about', function () {
     return view('pages.about');
 });
@@ -27,18 +31,21 @@ Route::get('/team', function () {
 Route::get('/contact', function () {
     return view('pages.contact');
 });
-// Route::get('/home', function () {
-//     return view('pages.home');
-// });
 
+// Mengaktifkan CRUD untuk Buku
+Route::resource('books', BookController::class);
+
+// Dashboard hanya untuk pengguna yang sudah login & terverifikasi
 Route::get('/dashboard', function () {
     return view('pagesadmin.dashboard');
 })->middleware(['auth', 'verified'])->name('pagesadmin.dashboard');
 
+// Grup middleware untuk autentikasi
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Autentikasi (Login, Register, dll.)
 require __DIR__.'/auth.php';
