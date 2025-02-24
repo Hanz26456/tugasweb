@@ -13,4 +13,9 @@ class Member extends Model
     protected $fillable = [
         'name', 'address', 'phone', 'email', 'membership_type', 'join_date', 'status'
     ];
+
+public function loans()
+{
+    return $this->hasMany(Loan::class);
+}
 }

@@ -83,14 +83,26 @@ class MemberController extends Controller
             'join_date' => 'required|date',
             'status' => 'required|string',
         ]);
-
+    
         try {
+            // 🔍 Cek sebelum update
+            Log::info('Sebelum Update:', $member->toArray());
+    
+            // 🔍 Cek data yang diterima dari form
+            Log::info('Data Diterima:', $validated);
+    
+            // 🔄 Update data
             $member->update($validated);
+    
+            // 🔍 Cek setelah update
+            Log::info('Setelah Update:', $member->refresh()->toArray());
+    
             return redirect()->route('members.index')->with('success', 'Anggota berhasil diperbarui');
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal memperbarui anggota: ' . $e->getMessage());
         }
     }
+    
 
     /**
      * Menghapus data anggota
@@ -104,4 +116,13 @@ class MemberController extends Controller
             return back()->with('error', 'Gagal menghapus anggota: ' . $e->getMessage());
         }
     }
+    public function history(Member $member)
+    {
+        // Ambil data peminjaman berdasarkan member_id
+        $loans = $member->loans()->with('book')->get();
+    
+        return view('members.history', compact('member', 'loans'));
+    }
+    
+
 }

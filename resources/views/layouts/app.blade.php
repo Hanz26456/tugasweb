@@ -15,12 +15,29 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="{{ route('books.index') }}">Buku</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}">Anggota</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('loans.index') }}">Peminjaman</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('loans.index') }}">Peminjaman & Pengembalian</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Kategori</a></li>
+    
+                    <!-- Dropdown untuk memilih anggota -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="historyDropdown" role="button" data-bs-toggle="dropdown">
+                            History
+                        </a>
+                        <ul class="dropdown-menu">
+                            @foreach(App\Models\Member::all() as $m)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('members.history', ['member' => $m->id]) }}">
+                                        {{ $m->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
 
     <div class="container mt-4">
         @yield('content')

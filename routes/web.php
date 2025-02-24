@@ -12,6 +12,11 @@ Route::get('/', [BookController::class, 'index'])->name('books.index');
 Route::resource('members', MemberController::class);
 Route::resource('loans', LoanController::class);
 Route::resource('categories', CategoryController::class);
+Route::get('/members/{member}/history', [MemberController::class, 'history'])->name('members.history');
+Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
+
+
 // Halaman statis
 Route::get('/about', function () {
     return view('pages.about');
