@@ -1,66 +1,107 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class MemberController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar anggota
      */
     public function index()
     {
         $members = Member::all();
         return view('members.index', compact('members'));
     }
-    
+
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form tambah anggota
      */
     public function create()
     {
-        //
+        return view('members.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data anggota ke database
      */
     public function store(Request $request)
     {
-        //
+        // ✅ Debugging: Periksa data yang dikirim dari form
+        Log::info('Data Masuk:', $request->all());
+
+        // ✅ Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|unique:members,email',
+            'membership_type' => 'required|string',
+            'join_date' => 'required|date',
+            'status' => 'required|string',
+        ]);
+
+        // ✅ Simpan ke database
+        try {
+            Member::create($validated);
+            return redirect()->route('members.index')->with('success', 'Anggota berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menyimpan anggota: ' . $e->getMessage());
+        }
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail anggota
      */
     public function show(Member $member)
     {
-        //
+        return view('members.show', compact('member'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form edit anggota
      */
     public function edit(Member $member)
     {
-        //
+        return view('members.edit', compact('member'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Memperbarui data anggota
      */
     public function update(Request $request, Member $member)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|unique:members,email,' . $member->id,
+            'membership_type' => 'required|string',
+            'join_date' => 'required|date',
+            'status' => 'required|string',
+        ]);
+
+        try {
+            $member->update($validated);
+            return redirect()->route('members.index')->with('success', 'Anggota berhasil diperbarui');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal memperbarui anggota: ' . $e->getMessage());
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus data anggota
      */
     public function destroy(Member $member)
     {
-        //
+        try {
+            $member->delete();
+            return redirect()->route('members.index')->with('success', 'Anggota berhasil dihapus');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus anggota: ' . $e->getMessage());
+        }
     }
 }

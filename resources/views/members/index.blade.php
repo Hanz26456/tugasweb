@@ -4,7 +4,16 @@
 
 @section('content')
     <h3>Daftar Anggota</h3>
-    <table class="table">
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <a href="{{ route('members.create') }}" class="btn btn-primary mb-3">Tambah Anggota</a>
+
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>No</th>
@@ -24,7 +33,7 @@
                         <form action="{{ route('members.destroy', $member->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Hapus anggota ini?')">Hapus</button>
                         </form>
                     </td>
                 </tr>

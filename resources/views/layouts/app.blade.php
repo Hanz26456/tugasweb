@@ -16,6 +16,7 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('books.index') }}">Buku</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('members.index') }}">Anggota</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('loans.index') }}">Peminjaman</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}">Kategori</a></li>
                 </ul>
             </div>
         </div>
