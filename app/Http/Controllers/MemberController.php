@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 
 class MemberController extends Controller
 {
@@ -123,6 +125,12 @@ class MemberController extends Controller
     
         return view('members.history', compact('member', 'loans'));
     }
-    
+    public function exportPdf(Member $member)
+{
+    $loans = $member->loans()->with('book')->get();
+
+    $pdf = FacadePdf::loadView('members.history_pdf', compact('member', 'loans'));
+    return $pdf->download('riwayat_peminjaman_' . $member->name . '.pdf');
+}
 
 }

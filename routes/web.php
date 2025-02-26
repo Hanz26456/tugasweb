@@ -15,6 +15,7 @@ Route::resource('categories', CategoryController::class);
 Route::get('/members/{member}/history', [MemberController::class, 'history'])->name('members.history');
 Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
 Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
+Route::get('/members/{member}/history/pdf', [MemberController::class, 'exportPdf'])->name('members.history.pdf');
 
 
 // Halaman statis

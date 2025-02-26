@@ -1,16 +1,19 @@
-@extends('layouts.app')
-
-@section('title', 'Riwayat Peminjaman - ' . $member->name)
-
-@section('content')
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Peminjaman - {{ $member->name }}</title>
+    <style>
+        body { font-family: sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
     <h3>Riwayat Peminjaman - {{ $member->name }}</h3>
-
-    <!-- Tombol Unduh PDF ditempatkan di atas tabel -->
-    <a href="{{ route('members.history.pdf', ['member' => $member->id]) }}" class="btn btn-primary mb-3">
-        Unduh PDF
-    </a>
-
-    <table class="table">
+    <table>
         <thead>
             <tr>
                 <th>No</th>
@@ -32,7 +35,5 @@
             @endforeach
         </tbody>
     </table>
-
-    <!-- Tombol Kembali ditempatkan di bawah tabel -->
-    <a href="{{ route('members.index') }}" class="btn btn-secondary">Kembali</a>
-@endsection
+</body>
+</html>
