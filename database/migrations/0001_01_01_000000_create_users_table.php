@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +17,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->integer('gajipokok')->nullable(); // Menggunakan integer untuk gaji
+            $table->string('no_telepon', 20)->nullable(); // Menggunakan string untuk nomor telepon
+            $table->integer('pinjaman')->nullable(); // Menggunakan integer untuk pinjaman
             $table->timestamps();
         });
 

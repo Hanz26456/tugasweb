@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
@@ -25,46 +27,96 @@
         <!-- Register Form -->
         <form action="{{ route('register') }}" method="POST" class="mt-6">
             @csrf
+        
+            <!-- Name Field -->
             <div>
                 <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Name</label>
                 <input id="name" name="name" type="text" required autocomplete="name" autofocus 
                        class="block mt-1 w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-indigo-500" />
                 <p class="mt-2 text-red-500 text-sm">@error('name') {{ $message }} @enderror</p>
             </div>
-            
+        
+            <!-- Email Field -->
             <div class="mt-4">
                 <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Email</label>
                 <input id="email" name="email" type="email" required autocomplete="username"
                        class="block mt-1 w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-indigo-500" />
                 <p class="mt-2 text-red-500 text-sm">@error('email') {{ $message }} @enderror</p>
             </div>
-            
+        
+            <!-- Phone Number Field -->
             <div class="mt-4">
+                <label for="no_telepon" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Phone Number</label>
+                <input id="no_telepon" name="no_telepon" type="tel" required autocomplete="tel"
+                       class="block mt-1 w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-indigo-500" />
+                <p class="mt-2 text-red-500 text-sm">@error('no_telepon') {{ $message }} @enderror</p>
+            </div>
+        
+            <!-- Salary Field -->
+            <div class="mt-4">
+                <label for="gajipokok" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Salary (Gaji Pokok)</label>
+                <input id="gajipokok" name="gajipokok" type="number" min="0" required
+                       class="block mt-1 w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-indigo-500" />
+                <p class="mt-2 text-red-500 text-sm">@error('gajipokok') {{ $message }} @enderror</p>
+            </div>
+        
+            <!-- Loan Field -->
+            <div class="mt-4">
+                <label for="pinjaman" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Loan (Pinjaman)</label>
+                <input id="pinjaman" name="pinjaman" type="number" min="0" required
+                       class="block mt-1 w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-indigo-500" />
+                <p class="mt-2 text-red-500 text-sm">@error('pinjaman') {{ $message }} @enderror</p>
+            </div>
+        
+            <!-- Password Field -->
+            <div class="mt-4 relative">
                 <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
                 <input id="password" name="password" type="password" required autocomplete="new-password"
                        class="block mt-1 w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-indigo-500" />
+                <i id="toggle-password" class="fas fa-eye absolute top-10 right-3 text-gray-600 cursor-pointer"></i>
                 <p class="mt-2 text-red-500 text-sm">@error('password') {{ $message }} @enderror</p>
             </div>
-            
-            <div class="mt-4">
+        
+            <!-- Confirm Password Field -->
+            <div class="mt-4 relative">
                 <label for="password_confirmation" class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Confirm Password</label>
                 <input id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password"
                        class="block mt-1 w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-indigo-500" />
+                <i id="toggle-confirm-password" class="fas fa-eye absolute top-10 right-3 text-gray-600 cursor-pointer"></i>
                 <p class="mt-2 text-red-500 text-sm">@error('password_confirmation') {{ $message }} @enderror</p>
             </div>
-            
+        
             <div class="flex items-center justify-end mt-4">
                 <a href="{{ route('login') }}" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                     Already registered?
                 </a>
             </div>
-            
+        
             <div class="mt-4">
                 <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg transition-all duration-300">
                     Register
                 </button>
             </div>
         </form>
+        
     </div>
+
+    <script>
+        // Toggle password visibility
+        document.getElementById('toggle-password').addEventListener('click', function() {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.type === 'password' ? 'text' : 'password';
+            passwordField.type = type;
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Toggle confirm password visibility
+        document.getElementById('toggle-confirm-password').addEventListener('click', function() {
+            const confirmPasswordField = document.getElementById('password_confirmation');
+            const type = confirmPasswordField.type === 'password' ? 'text' : 'password';
+            confirmPasswordField.type = type;
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 </html>
